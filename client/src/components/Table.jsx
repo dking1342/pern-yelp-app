@@ -1,16 +1,31 @@
 import React from 'react';
 
-export const TableButton = ({type, btnType, id}) => {
+export const EditButton = ({id}) => {
     const handleClick = () => {
-        console.log('edit clicked')
+        console.log(id)
     }
 
     return(
-        <button className={`btn btn-${btnType}`} onClick={handleClick}>
-            { type }
+        <button className="btn btn-warning" onClick={handleClick}>
+            Edit
         </button>
     )
+}
 
+export const DeleteButton = ({id, setFetchData,getAll}) => {
+    const handleClick = () => {
+        setFetchData({
+            url:`http://localhost:5000/api/v1/restaurants/${id}`,
+            method:'DELETE',
+            body:{}
+        });
+    }
+
+    return(
+        <button className="btn btn-danger" onClick={handleClick}>
+            Delete
+        </button>
+    )
 }
 
 const Table = ({children}) => {

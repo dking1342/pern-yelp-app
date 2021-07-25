@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
 
-export const callback = (url,method='GET',body=null) => {
+export const callback = (url,method,body=null) => {
     if(method === 'GET'){
         return fetch(url);
     } else {
         return fetch(url,{
-            method,
+            method:method,
             headers:{
                 "Content-Type":"application/json"
             },

@@ -1,33 +1,64 @@
-import React from 'react'
-import Table, { TableButton } from './Table'
+import React, { useContext } from 'react'
+import { AppContext } from '../context/store'
+import Table, { DeleteButton, EditButton } from './Table'
 
 const RestaurantList = () => {
+    const { state:{data,loading,error},setFetchData } = useContext(AppContext);
+
+    if(loading){
+        return(
+            <div className="container">
+                <h5 className="font-weight-light display-4 text-center text-secondary">Loading...</h5>
+            </div>
+        )
+    }
+    if(error){
+        return(
+            <div className="container">
+                <h5 className="font-weight-light display-4 text-center text-danger">Loading...</h5>
+            </div>
+        )
+    }
+    if(Array.isArray(data)){
+        return (
+            <div className="list-group container">
+                <Table>
+                    <thead>
+                        <tr className="bg-primary">
+                            <th scope="col">Restaurant</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Price Range</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.map(item=>(
+                                <tr key={item.id}>
+                                    <td>{item.name}</td>
+                                    <td>{item.location}</td>
+                                    <td>{[...Array(item.price_range)].map((x,i)=>'$').join('')  }</td>
+                                    <td>Rating</td>
+                                    <td><EditButton  id={item.id} /></td>
+                                    <td><DeleteButton id={item.id} setFetchData={setFetchData} /></td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
+            </div>
+        )
+    }
     return (
-        <div className="list-group container">
-            <Table>
-                <thead>
-                    <tr className="bg-primary">
-                        <th scope="col">Restaurant</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Price Range</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Wendy's</td>
-                        <td>Dallas</td>
-                        <td>$</td>
-                        <td>Rating</td>
-                        <td><TableButton type='Edit' btnType='warning' /></td>
-                        <td><TableButton type='Delete' btnType='danger' /></td>
-                    </tr>
-                </tbody>
-            </Table>
+        <div className="container">
+            <h5 className="font-weight-light display-4 text-center text-secondary">No Restaurants</h5>
         </div>
+
     )
+
+
 }
 
 export default RestaurantList
