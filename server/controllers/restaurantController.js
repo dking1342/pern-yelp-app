@@ -35,7 +35,6 @@ export const postRestaurant = async (req,res) => {
     try {
         let { name, location, price_range } = req.body;
         const newRestaurant = await pool.query("INSERT INTO restaurants(name,location,price_range) VALUES($1,$2,$3) RETURNING *",[name,location,price_range]);
-        console.log(newRestaurant);
         res.status(200).json({success:true,payload:newRestaurant.rows[0]});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});

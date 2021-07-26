@@ -24,7 +24,6 @@ const AddRestaurant = () => {
         onSubmit
     } = useForm(initialState,callback)
 
-
     return (
         <div className="mb-4 container">
             <form onSubmit={onSubmit}>
@@ -59,7 +58,7 @@ const AddRestaurant = () => {
                             {
                                 [...Array(6)].map((item,index)=> (
                                     (index === 0) ? (
-                                        <option key={index} value="1" disabled>Price Range</option>
+                                        <option key={index} value="" disabled>Price Range</option>
                                     ) : (
                                         <option key={index} value={index}>{ [...Array(index)].map((x,i)=>'$').join('') }</option>
                                     )
@@ -68,7 +67,11 @@ const AddRestaurant = () => {
                         </select>
                     </div>
                     <div className="col-12-auto col-md-3 my-2">
-                        <button className="btn btn-primary" style={{width:'100%'}}>
+                        <button 
+                            className="btn btn-primary" 
+                            style={{width:'100%'}}
+                            disabled={!Object.values(values).every(x=> x !== '' && x.trim() !== '')}
+                        >
                             Add
                         </button>
                     </div>

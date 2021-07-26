@@ -34,29 +34,31 @@ export const AppProvider = ({children}) => {
 
     // data
     useEffect(()=>{
-        if(method === 'GET'){
-            dispatch({
-                type:'GET',
-                payload:data
-            })
-        } else if (method === 'DELETE') {
-            dispatch({
-                type:'DELETE',
-                payload:data
-            })
-        } else if(method === 'PUT'){
-            dispatch({
-                type:'PUT',
-                payload:data
-            })
-        } else if(method === 'POST') {
-            dispatch({
-                type:'POST',
-                payload:data
-            })
+        switch (method) {
+            case 'GET':
+                return dispatch({
+                    type:'GET',
+                    payload:data
+                })                
+            case 'DELETE':
+                return dispatch({
+                    type:'DELETE',
+                    payload:data
+                })
+            case 'PUT':
+                return dispatch({
+                    type:'PUT',
+                    payload:data
+                })
+            case 'POST':
+                return dispatch({
+                    type:'POST',
+                    payload:data
+                })
+            default:
+                return;
         }
-
-    },[data,method])
+    },[data])
 
     // loading
     useEffect(()=>{

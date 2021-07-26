@@ -6,7 +6,7 @@ export const callback = (url,method,body=null) => {
         return fetch(url);
     } else {
         return fetch(url,{
-            method:method,
+            method,
             headers:{
                 "Content-Type":"application/json"
             },
