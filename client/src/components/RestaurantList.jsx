@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { AppContext } from '../context/store'
+import { AppContext } from '../context/store';
+import { Link } from 'react-router-dom';
 import { Table, DeleteButton, EditButton } from './Table'
 
 const RestaurantList = () => {
@@ -36,8 +37,8 @@ const RestaurantList = () => {
                     <tbody>
                         {
                             data.map(item=>(
-                                <tr key={item.id}>
-                                    <td>{item.name}</td>
+                                <tr key={item.id} className="align-middle">
+                                    <td><Link to={`/restaurants/${item.name}/update`} className="link-warning text-wrap text-decoration-none" >{item.name}</Link></td>
                                     <td>{item.location}</td>
                                     <td>{[...Array(item.price_range)].map((x,i)=>'$').join('')  }</td>
                                     <td>Rating</td>
