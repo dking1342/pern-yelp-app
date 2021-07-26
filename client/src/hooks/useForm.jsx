@@ -16,10 +16,23 @@ export const useForm = (initialState, callback = null) => {
         setValues(initialState);
     }
 
+    const regex = /^[\s].*$/;
+
     return {
         values,
+        regex,
         onChange,
         onSubmit
     }
 
+}
+
+export const Form = ({ children, onSubmit, ...rest }) => {
+
+
+    return (
+        <form onSubmit={onSubmit} {...rest}>
+            { children }
+        </form>
+    )
 }

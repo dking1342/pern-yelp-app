@@ -11,10 +11,23 @@ export const AppReducer = (state,action) => {
                 ...state,
                 data:state.data.filter(x=> x.id !== action.payload.id)
             }
-        case 'ADD':
+        case 'PUT':
+            const updateData = state.data.map(item=>{
+                if(item.id === action.payload.id){
+                    return action.payload;
+                } else {
+                    return item;
+                }
+            })
             return{
                 ...state,
-                data:[...state.data,action.payload]
+                data:updateData
+            }
+        case 'POST':
+            console.log('post',[...state.data, action.payload])
+            return{
+                ...state,
+                data:[...state.data, action.payload]
             }
         case 'LOADING':
             return{

@@ -44,9 +44,14 @@ export const AppProvider = ({children}) => {
                 type:'DELETE',
                 payload:data
             })
-        } else {
+        } else if(method === 'PUT'){
             dispatch({
-                type:'ADD',
+                type:'PUT',
+                payload:data
+            })
+        } else if(method === 'POST') {
+            dispatch({
+                type:'POST',
                 payload:data
             })
         }

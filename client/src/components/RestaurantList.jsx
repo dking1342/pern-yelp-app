@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../context/store'
-import Table, { DeleteButton, EditButton } from './Table'
+import { Table, DeleteButton, EditButton } from './Table'
 
 const RestaurantList = () => {
     const { state:{data,loading,error},setFetchData } = useContext(AppContext);
-
+    
     if(loading){
         return(
             <div className="container">

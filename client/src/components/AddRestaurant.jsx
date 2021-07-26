@@ -1,19 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../context/store'
 import { useForm } from '../hooks/useForm'
 
 const AddRestaurant = () => {
-
+    const { setFetchData } = useContext(AppContext);
     const initialState = {
         name:'',
         location:'',
         price_range:''
     }
 
+    const callback = () => {
+        setFetchData({
+            url:'http://localhost:5000/api/v1/restaurants/',
+            method:'POST',
+            body:values
+        })
+    }
+
     const { 
         values,
         onChange,
         onSubmit
-    } = useForm(initialState)
+    } = useForm(initialState,callback)
 
 
     return (
