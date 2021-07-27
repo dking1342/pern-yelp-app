@@ -16,7 +16,7 @@ export const getReviews = async (req,res) => {
 export const getReviewByRestaurant = async (req,res) => {
     try {
         let { id } = req.params;
-        let { rows: reviews } = await pool.query("SELECT * FROM reviews WHERE restaurant = $1",[id]);
+        let { rows: reviews } = await pool.query("SELECT * FROM reviews WHERE restaurant_id = $1",[id]);
         res.status(200).json({success:true,payload:reviews})
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});        

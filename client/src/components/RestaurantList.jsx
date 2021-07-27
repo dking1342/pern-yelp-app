@@ -5,7 +5,7 @@ import { Table, DeleteButton, EditButton } from './Table'
 
 const RestaurantList = () => {
     const { state:{data,loading,error},setFetchData } = useContext(AppContext);
-    
+    console.log(data)
     if(loading){
         return(
             <div className="container">
@@ -38,7 +38,7 @@ const RestaurantList = () => {
                         {
                             data.map(item=>(
                                 <tr key={item.id} className="align-middle">
-                                    <td><Link to={`/restaurants/${item.name}/update`} className="link-warning text-wrap text-decoration-none" >{item.name}</Link></td>
+                                    <td><Link to={`/restaurants/${item.rest_id}/update`} className="link-warning text-wrap text-decoration-none" >{item.name}</Link></td>
                                     <td>{item.location}</td>
                                     <td>{[...Array(item.price_range)].map((x,i)=>'$').join('')  }</td>
                                     <td>Rating</td>
