@@ -34,8 +34,18 @@ export const getRestaurant = async (req,res) => {
 export const postRestaurant = async (req,res) => {
     try {
         let { name, location, price_range } = req.body;
-        const newRestaurant = await pool.query("INSERT INTO restaurants(name,location,price_range) VALUES($1,$2,$3) RETURNING *",[name,location,price_range]);
-        res.status(200).json({success:true,payload:newRestaurant.rows[0]});
+        let rId;
+
+        const { rows } = await pool.query("SELECT * FROM restaurant_list WHERE restaurant_name = $1",[name]);
+        if(!rows.length){
+            const { rows: restList } = await pool.query("INSERT INTO restaurant_list(restaurant_name) VALUES($1) RETURNING *",[name]);
+            rId = restList[0].restaurant_id;
+        } else {
+            rId = rows[0].restaurant_id;
+        }
+
+        const { rows: newRestaurant } = await pool.query("INSERT INTO restaurants(name,location,price_range,rest_id) VALUES($1,$2,$3,$4) RETURNING *",[name,location,price_range,rId]);
+        res.status(200).json({success:true,payload:newRestaurant[0]});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});
     }
@@ -48,15 +58,28 @@ export const postRestaurant = async (req,res) => {
 export const putRestaurant = async (req,res) => {
     try {
         const { id } = req.params;
-        let bodyInputs = Object.entries(req.body);
         const { rows } = await pool.query('SELECT * FROM restaurants WHERE id = $1',[id]);
+        let bodyInputs = Object.entries(req.body);
+        let rId;
+        let newName = bodyInputs[0][1];
 
-        let { name, location, price_range } = rows.map(r=>{
+        let { rows: listId } = await pool.query("SELECT * FROM restaurant_list WHERE restaurant_name = $1",[newName]);
+        if(!listId.length){
+            const { rows: restList } = await pool.query("INSERT INTO restaurant_list(restaurant_name) VALUES($1) RETURNING *",[newName]);
+            rId = restList[0].restaurant_id;
+        } else {
+                console.log('entry exists')
+                rId = listId[0].restaurant_id;
+        }
+        bodyInputs = [...bodyInputs,['rest_id',rId]]
+
+        let { name, location, price_range, rest_id } = rows.map(r=>{
             bodyInputs.forEach((key,i)=> !key[1] && (bodyInputs[i][1] = r[key[0]]));
             return Object.fromEntries(bodyInputs);
         })[0];
-        const updateRestaurant = await pool.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 RETURNING *",[name,location,price_range,id]);
-        res.status(200).json({success:true,payload:updateRestaurant.rows[0]});
+
+        const { rows: updateRestaurant } = await pool.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3, rest_id = $4 WHERE id = $5 RETURNING *",[name,location,price_range,rest_id,id]);
+        res.status(200).json({success:true,payload:updateRestaurant[0]});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});
     }
