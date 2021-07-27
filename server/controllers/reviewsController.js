@@ -27,8 +27,15 @@ export const postReview = async (req,res) => {
     try {
         let { restaurant, restaurant_id, username, rating, review } = req.body;
         let { rows: newReview } = await pool.query("INSERT INTO reviews(restaurant,restaurant_id,username,rating,review) VALUES($1,$2,$3,$4,$5) RETURNING *",[restaurant,restaurant_id,username,rating,review]);
-        console.log(newReview);
-        res.status(201).json({success:true,payload:newReview[0]});
+        // get header data 
+        let { rows: headerFull } = await pool.query("SELECT restaurant, AVG(rating)::numeric(10,1) AS rating_average, COUNT(*) AS rating_count FROM reviews WHERE restaurant_id = $1 GROUP BY restaurant",[restaurant_id]);
+
+        let payload = {
+            header:headerFull[0],
+            reviews:newReview[0]
+        }
+
+        res.status(201).json({success:true,payload});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});
     }
@@ -53,11 +60,18 @@ export const getReviewListByRestaurant = async (req,res) => {
             }
             res.status(200).json({success:true,payload:payloadEmpty});
         } else {
-            // there is an entry for the restaurant
-            console.log('there are reviews');
+            // get header data 
             let { rows: headerFull } = await pool.query("SELECT restaurant, AVG(rating)::numeric(10,1) AS rating_average, COUNT(*) AS rating_count FROM reviews WHERE restaurant_id = $1 GROUP BY restaurant",[id]);
-            console.log(headerFull)
-            res.status(200).json({success:true,payload:'works'})
+            // get review data
+            let { rows: reviews } = await pool.query("SELECT * FROM reviews WHERE restaurant_id = $1",[id]);
+
+            // object with payload
+            let payload = {
+                header:headerFull[0],
+                reviews
+            }
+            
+            res.status(200).json({success:true,payload})
         }
 
 

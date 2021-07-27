@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import { ReviewContext } from '../context/reviews';
 import { Form, useForm } from '../hooks/useForm';
 import { Link } from 'react-router-dom';
+import RatingStar from '../components/RatingStar';
 
 const Review = (props) => {
     let { id } = props.match.params;
@@ -20,8 +21,10 @@ const Review = (props) => {
     },[]);
 
     useEffect(()=>{
-        setHeader(reviews.header);
-        setReviewList(reviews.reviews);
+        if(reviews && reviews !== null){
+            setHeader(reviews.header);
+            setReviewList(reviews.reviews);
+        }
     },[reviews])
 
     // state for useForm hook
@@ -35,7 +38,7 @@ const Review = (props) => {
         setFetchReviews({
             url:'http://localhost:5000/api/v1/reviews/new',
             method:'POST',
-            body:{...values,restaurant:reviews[0].restaurant,restaurant_id:id}
+            body:{...values,restaurant:header.restaurant,restaurant_id:id}
         })
     }
     let {
@@ -60,7 +63,7 @@ const Review = (props) => {
                 <div className="container mt-3">
                     <Header text={header.restaurant} />
                     <div className="text-center">
-                        Rating:{header.rating_average}({header.rating_count})
+                        <RatingStar rating={header.rating_average} /> ({header.rating_count})
                     </div>
                     <div className="row mt-3">
                         <p>
@@ -144,7 +147,7 @@ const Review = (props) => {
                                     <div className="card cols" style={{margin:'7px 7px'}} key={item.review_id}>
                                         <div className="card-body">
                                             <h5 className="card-title">{item.username}</h5>
-                                            <h6 className="card-subtitle mb-2 text-muted">{item.rating}</h6>
+                                            <h6 className="card-subtitle mb-2 text-muted"><RatingStar rating={item.rating} /></h6>
                                             <p className="card-text">{item.review.substring(0,20)} ...Read More</p>
                                         </div>
                                     </div>
@@ -168,28 +171,9 @@ const Review = (props) => {
             </>
         )
     }
-                 
-    //                 <div className="row my-3">
-    //                     {
-    //                         reviews.map((item)=>(
-    //                             <div className="card cols" style={{margin:'7px 7px'}} key={item.review_id}>
-    //                                 <div className="card-body">
-    //                                     <h5 className="card-title">{item.username}</h5>
-    //                                     <h6 className="card-subtitle mb-2 text-muted">{item.rating}</h6>
-    //                                     <p className="card-text">{item.review.substring(0,20)} ...Read More</p>
-    //                                 </div>
-    //                             </div>
-    //                         ))
-    //                     }
-    //                 </div>
-    //             </div>
-    //         </>
-    //     )
-    // }
+
     return(
-        <div>
-            no entries
-        </div>
+        <div>error</div>
     )
     
 

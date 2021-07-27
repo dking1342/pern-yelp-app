@@ -7,9 +7,13 @@ export const ReviewReducer = (state,action) => {
                 reviews:action.payload
             }
         case 'POST':
+            console.log('post',state,state.reviews.header);
             return{
                 ...state,
-                reviews:[...state.reviews,action.payload]
+                reviews:{
+                    header:action.payload.header,
+                    reviews:[...state.reviews.reviews,action.payload.reviews]
+                }
             }
     
         default:

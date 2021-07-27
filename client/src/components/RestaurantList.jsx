@@ -6,6 +6,7 @@ import { Table, DeleteButton, EditButton } from './Table'
 const RestaurantList = () => {
     const { state:{data,loading,error},setFetchData } = useContext(AppContext);
     console.log(data)
+
     if(loading){
         return(
             <div className="container">
