@@ -114,7 +114,13 @@ GROUP BY restaurant;
 ------------------------------------------
 -- practice
 -- joins
- SELECT restaurant_id,restaurant_name, reviews.username, reviews.rating
- FROM restaurant_list
+ SELECT reviews.restaurant_id,reviews.restaurant, reviews.username, reviews.rating
+ FROM restaurants
  RIGHT JOIN reviews
- ON reviews.restaurant_id = restaurant_list.restaurant_id;
+ ON reviews.restaurant_id = restaurants.id;
+
+SELECT restaurants.id,restaurants.name,restaurants.location, restaurants.price_range, AVG(reviews.rating)
+FROM reviews
+LEFT JOIN restaurants
+ON reviews.restaurant_id = restaurants.rest_id
+GROUP BY restaurants.id,restaurants.name,restaurants.location,restaurants.price_range,reviews.rating;

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { AppContext } from '../context/store';
 import { Link } from 'react-router-dom';
 import { Table, DeleteButton, EditButton } from './Table'
+import RatingStar from './RatingStar';
 
 const RestaurantList = () => {
     const { state:{data,loading,error},setFetchData } = useContext(AppContext);
@@ -42,7 +43,7 @@ const RestaurantList = () => {
                                     <td><Link to={`/restaurants/${item.rest_id}/update`} className="link-warning text-wrap text-decoration-none" >{item.name}</Link></td>
                                     <td>{item.location}</td>
                                     <td>{[...Array(item.price_range)].map((x,i)=>'$').join('')  }</td>
-                                    <td>Rating</td>
+                                    <td><RatingStar rating={item.rating} /></td>
                                     <td><EditButton  id={item.id} /></td>
                                     <td><DeleteButton id={item.id} setFetchData={setFetchData} /></td>
                                 </tr>

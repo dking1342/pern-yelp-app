@@ -11,81 +11,81 @@ const RatingStar = ({rating}) => {
         case 0.5:
             return(
                 <>
-                   <i class="fas fa-star-half text-warning"></i>
+                   <i className="fas fa-star-half text-warning"></i>
                 </>
             )
         case 1:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
                 </>
             )
         case 1.5:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star-half text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star-half text-warning"></i>
                 </>
             )
         case 2:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
                 </>
             )
         case 2.5:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star-half text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star-half text-warning"></i>
                 </>
             )
         case 3:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
                 </>
             )
         case 3.5:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star-half text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star-half text-warning"></i>
                 </>
             )
         case 4:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
                 </>
             )
         case 4.5:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star-half text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star-half text-warning"></i>
                 </>
             )
         case 5:
             return(
                 <>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
-                   <i class="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
+                   <i className="fas fa-star text-warning"></i>
                 </>
             )
 

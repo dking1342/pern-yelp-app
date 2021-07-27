@@ -6,8 +6,23 @@ import {pool} from '../config/postgres.js';
 // ACCESS   PUBLIC
 export const getRestaurants = async (req,res) => {
     try {
-        const restaurants = await pool.query("SELECT * FROM restaurants");
-        res.status(200).json({success:true,payload:restaurants.rows});
+        const { rows: restaurants} = await pool.query("SELECT * FROM restaurants");
+        const { rows: ratings } = await pool.query("SELECT restaurant_id,restaurant, AVG(rating)::numeric(10,1) AS rating_average FROM reviews GROUP BY restaurant_id,restaurant");
+
+        let payload = restaurants.map(entry=>{
+            let average_rating = 0;
+            ratings.forEach(rate=>{
+                if(entry.rest_id === rate.restaurant_id){
+                    average_rating = Number(rate.rating_average)
+                } 
+            })
+            return {
+                ...entry,
+                rating:average_rating
+            }
+        })
+        
+        res.status(200).json({success:true,payload});
     } catch (error) {
         res.status(500).json({success:false,payload:'Bad Request'});
     }
