@@ -90,10 +90,14 @@ INSERT INTO reviews(
     'This is my review'
 );
 
--- gets all reviews based on restaurant
+-- gets all reviews
+SELECT *
+FROM reviews;
+
+-- gets all reviews based on restaurant id
 SELECT * 
 FROM reviews
-WHERE restaurant = 'Pizza Hut';
+WHERE restaurant_id = '1c6a1a7b-104c-4d93-9177-35ff94c26661';
 
 -- queries the restaurants and returns the average and count
 SELECT restaurant, AVG(rating)::numeric(10,1) AS average, COUNT(rating) AS count
@@ -101,16 +105,16 @@ FROM reviews
 GROUP BY restaurant;
 
 -- queries restaurants then filters by restaurant the avg and count
-SELECT restaurant, AVG(rating)::numeric(10,1) AS average, COUNT(rating) AS count
+SELECT restaurant, AVG(rating)::numeric(10,1) AS rating_average, COUNT(rating) AS rating_count
 FROM reviews
-WHERE restaurant_id = '7ebe7e60-8410-4b37-bc17-6ceed37baf2a'
+WHERE restaurant_id = '1c6a1a7b-104c-4d93-9177-35ff94c26661'
 GROUP BY restaurant;
 
 
 ------------------------------------------
 -- practice
 -- joins
- SELECT restaurant_name, reviews.username, reviews.rating
+ SELECT restaurant_id,restaurant_name, reviews.username, reviews.rating
  FROM restaurant_list
  RIGHT JOIN reviews
  ON reviews.restaurant_id = restaurant_list.restaurant_id;

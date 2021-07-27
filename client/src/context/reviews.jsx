@@ -67,11 +67,21 @@ export const ReviewProvider = ({children}) => {
         })
     },[error])
 
+    // get header data
+    const getHeaderData = (id) => {
+        setFetchReviews({
+            url:`http://localhost:5000/api/v1/reviews/${id}/list`,
+            method:'GET',
+            body:null
+        })
+    }
+
     return(
         <ReviewContext.Provider
             value={{
                 reviewState,
-                setFetchReviews
+                setFetchReviews,
+                getHeaderData
             }}
         >
             {children}

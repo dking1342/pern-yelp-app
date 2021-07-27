@@ -24,7 +24,6 @@ export const AppReducer = (state,action) => {
                 data:updateData
             }
         case 'POST':
-            console.log('post',[...state.data, action.payload])
             return{
                 ...state,
                 data:[...state.data, action.payload]
