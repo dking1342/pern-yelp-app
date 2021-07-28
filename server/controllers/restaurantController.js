@@ -1,4 +1,5 @@
 import {pool} from '../config/postgres.js';
+import { findRating } from '../utils/findRating.js';
 
 // ROUTE    /api/v1/restaurants
 // METHOD   GET
@@ -51,6 +52,7 @@ export const postRestaurant = async (req,res) => {
         let { name, location, price_range } = req.body;
         let rId;
 
+        // checks if restaurant exisits in the restaurant list table
         const { rows } = await pool.query("SELECT * FROM restaurant_list WHERE restaurant_name = $1",[name]);
         if(!rows.length){
             const { rows: restList } = await pool.query("INSERT INTO restaurant_list(restaurant_name) VALUES($1) RETURNING *",[name]);
@@ -58,9 +60,12 @@ export const postRestaurant = async (req,res) => {
         } else {
             rId = rows[0].restaurant_id;
         }
-
         const { rows: newRestaurant } = await pool.query("INSERT INTO restaurants(name,location,price_range,rest_id) VALUES($1,$2,$3,$4) RETURNING *",[name,location,price_range,rId]);
-        res.status(200).json({success:true,payload:newRestaurant[0]});
+
+        // adds ratings to entry
+        const payload = await findRating(newRestaurant);
+
+        res.status(200).json({success:true,payload:payload[0]});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});
     }
@@ -72,18 +77,20 @@ export const postRestaurant = async (req,res) => {
 // ACCESS   PUBLIC
 export const putRestaurant = async (req,res) => {
     try {
+        // retrieves existing entry
         const { id } = req.params;
         const { rows } = await pool.query('SELECT * FROM restaurants WHERE id = $1',[id]);
         let bodyInputs = Object.entries(req.body);
         let rId;
         let newName = bodyInputs[0][1];
+        console.log('id',id)
 
+        // checks to see if restaurant already exists and has an id
         let { rows: listId } = await pool.query("SELECT * FROM restaurant_list WHERE restaurant_name = $1",[newName]);
         if(!listId.length){
             const { rows: restList } = await pool.query("INSERT INTO restaurant_list(restaurant_name) VALUES($1) RETURNING *",[newName]);
             rId = restList[0].restaurant_id;
         } else {
-                console.log('entry exists')
                 rId = listId[0].restaurant_id;
         }
         bodyInputs = [...bodyInputs,['rest_id',rId]]
@@ -93,8 +100,13 @@ export const putRestaurant = async (req,res) => {
             return Object.fromEntries(bodyInputs);
         })[0];
 
+        // updated restaurant entry with a restaurant id
         const { rows: updateRestaurant } = await pool.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3, rest_id = $4 WHERE id = $5 RETURNING *",[name,location,price_range,rest_id,id]);
-        res.status(200).json({success:true,payload:updateRestaurant[0]});
+
+        // adds rating to the entry
+        let payload = await findRating(updateRestaurant);
+
+        res.status(200).json({success:true,payload:payload[0]});
     } catch (error) {
         res.status(500).json({success:false,payload:error.message});
     }

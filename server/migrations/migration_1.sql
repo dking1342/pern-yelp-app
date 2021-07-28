@@ -107,7 +107,7 @@ GROUP BY restaurant;
 -- queries restaurants then filters by restaurant the avg and count
 SELECT restaurant, AVG(rating)::numeric(10,1) AS rating_average, COUNT(rating) AS rating_count
 FROM reviews
-WHERE restaurant_id = '1c6a1a7b-104c-4d93-9177-35ff94c26661'
+WHERE restaurant_id = '9d15cd53-22ec-4a69-b0b2-c65ea13d40d9'
 GROUP BY restaurant;
 
 

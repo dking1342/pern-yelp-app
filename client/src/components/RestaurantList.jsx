@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../context/store';
 import { Link } from 'react-router-dom';
-import { Table, DeleteButton, EditButton } from './Table'
+import { Table, DeleteButton } from './Table'
 import RatingStar from './RatingStar';
 
 const RestaurantList = () => {
     const { state:{data,loading,error},setFetchData } = useContext(AppContext);
-    console.log(data)
 
     if(loading){
         return(
@@ -44,7 +43,7 @@ const RestaurantList = () => {
                                     <td>{item.location}</td>
                                     <td>{[...Array(item.price_range)].map((x,i)=>'$').join('')  }</td>
                                     <td><RatingStar rating={item.rating} /></td>
-                                    <td><EditButton  id={item.id} /></td>
+                                    <td><Link to={`/restaurants/${item.id}`} className="btn btn-warning">Edit</Link></td>
                                     <td><DeleteButton id={item.id} setFetchData={setFetchData} /></td>
                                 </tr>
                             ))

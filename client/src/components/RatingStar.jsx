@@ -6,7 +6,7 @@ const RatingStar = ({rating}) => {
     switch (roundedRating) {
         case 0:
             return(
-                <span></span>
+                <span className="fs-6 fst-italic">No Rating</span>
             )
         case 0.5:
             return(
